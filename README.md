@@ -1,0 +1,1 @@
+This repository contains my digital design work in SystemVerilog, including RTL practice (HDLBits), a FIFO buffer, and a VGA display controller. These projects focus on FSMs, timing, memory, and testbenches.
