@@ -5,12 +5,12 @@ My solutions and learning notes for the practice set:
 https://hdlbits.01xz.net/wiki/Main_Page
 
 ## Learning Contents
-- [ ] **2. Verilog Language**
-  - [ ] 2.1 Basics
-  - [ ] 2.2 Vectors
-  - [ ] 2.3 Modules: Hierarchy
-  - [ ] 2.4 Procedures
-  - [ ] 2.5 More Verilog Features
+- [X] **2. Verilog Language**
+  - [X] 2.1 Basics
+  - [X] 2.2 Vectors
+  - [X] 2.3 Modules: Hierarchy
+  - [X] 2.4 Procedures
+  - [X] 2.5 More Verilog Features
 
 - [ ] **3. Circuits**
   - [ ] 3.1 Combinational Logic
