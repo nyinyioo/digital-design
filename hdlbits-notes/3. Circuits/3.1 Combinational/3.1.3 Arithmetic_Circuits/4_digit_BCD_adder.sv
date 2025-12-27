@@ -5,7 +5,7 @@ module top_module (
     output [15:0] sum );
     
     genvar i;
-    wire [15:0] carry;
+    wire [3:0] carry;
         generate
            for (i = 0; i < 4; i = i + 1) begin : bcd_adders
             if (i == 0) begin
@@ -27,5 +27,7 @@ module top_module (
             end
         end
     endgenerate
+    
+    assign cout = carry[3];
 
 endmodule
