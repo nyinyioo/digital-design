@@ -13,11 +13,11 @@ https://hdlbits.01xz.net/wiki/Main_Page
   - [X] 2.5 More Verilog Features
 
 - [ ] **3. Circuits**
-  - [ ] 3.1 Combinational Logic
+  - [X] 3.1 Combinational Logic
     - [X] 3.1.1 Basic Gates
     - [X] 3.1.2 Multiplexers
     - [X] 3.1.3 Arithmetic Circuits
-    - [ ] 3.1.4 Karnaugh Map to Circuit
+    - [X] 3.1.4 Karnaugh Map to Circuit
   - [ ] 3.2 Sequential Logic
     - [ ] 3.2.1 Latches and Flip-Flops
     - [ ] 3.2.2 Counters
