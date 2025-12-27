@@ -15,8 +15,8 @@ https://hdlbits.01xz.net/wiki/Main_Page
 - [ ] **3. Circuits**
   - [ ] 3.1 Combinational Logic
     - [X] 3.1.1 Basic Gates
-    - [ ] 3.1.2 Multiplexers
-    - [ ] 3.1.3 Arithmetic Circuits
+    - [X] 3.1.2 Multiplexers
+    - [X] 3.1.3 Arithmetic Circuits
     - [ ] 3.1.4 Karnaugh Map to Circuit
   - [ ] 3.2 Sequential Logic
     - [ ] 3.2.1 Latches and Flip-Flops
