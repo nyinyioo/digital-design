@@ -4,8 +4,7 @@ module top_module (
     output Q
 );
     
-    reg d,q_in;
-    wire out1;
+    reg d,q_in,out1;
 
      //CL input block
     always@(*) begin 
@@ -29,6 +28,5 @@ module top_module (
 
     //CL output block
     assign Q = q_in;
-
 
 endmodule

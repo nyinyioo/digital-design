@@ -19,9 +19,9 @@ https://hdlbits.01xz.net/wiki/Main_Page
     - [X] 3.1.3 Arithmetic Circuits
     - [X] 3.1.4 Karnaugh Map to Circuit
   - [ ] 3.2 Sequential Logic
-    - [ ] 3.2.1 Latches and Flip-Flops
-    - [ ] 3.2.2 Counters
-    - [ ] 3.2.3 Shift Registers
+    - [X] 3.2.1 Latches and Flip-Flops
+    - [X] 3.2.2 Counters
+    - [X] 3.2.3 Shift Registers
     - [ ] 3.2.4 More Circuits
     - [ ] 3.2.5 Finite State Machines
   - [ ] 3.3 Building Larger Circuits
