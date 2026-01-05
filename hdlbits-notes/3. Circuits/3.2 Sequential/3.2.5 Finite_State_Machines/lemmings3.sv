@@ -94,5 +94,5 @@ module top_module(
             DR: digging    = 1;
         endcase
     end
-
+    
 endmodule

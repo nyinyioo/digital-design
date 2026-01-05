@@ -1,3 +1,5 @@
+
+
 module top_module(
     input clk,
     input areset,    // Freshly brainwashed Lemmings walk left.
@@ -5,10 +7,10 @@ module top_module(
     input bump_right,
     input ground,
     input dig,
-    output walk_left,
-    output walk_right,
-    output aaah,
-    output digging ); 
+    output logic walk_left,
+    output logic walk_right,
+    output logic aaah,
+    output logic digging ); 
 
 /*
     WL = walking left
@@ -20,6 +22,7 @@ module top_module(
     SPLAT = splatter
 */
 
+
     parameter WL = 3'd0;
     parameter WR = 3'd1;
     parameter FL = 3'd2;
@@ -29,8 +32,8 @@ module top_module(
     parameter SPLAT = 3'd6;
 
     
-reg [2:0] state, next_state;
-    reg [4:0] fall_count;
+    logic [2:0] state, next_state;
+    logic [4:0] fall_count_left, fall_count_right;
 
     // Next-state logic
     always @(*) begin
@@ -51,20 +54,23 @@ reg [2:0] state, next_state;
             end
 
             FL: begin
+
                 if (ground) begin
-                    if (fall_count > 5'd20) next_state = SPLAT;
-                    else                    next_state = WL;
+                    next_state = WL;
                 end else
-                    next_state = FL;
+                    if (fall_count_left >= 5'd20) next_state = SPLAT;
+                    else        next_state = FL;
+
             end
 
             FR: begin
                 if (ground) begin
-                    if (fall_count > 5'd20) next_state = SPLAT;
-                    else                    next_state = WR;
+                    next_state = WR;
                 end else
-                    next_state = FR;
+                    if (fall_count_right >= 5'd20) next_state = SPLAT;
+                    else        next_state = FR;
             end
+
 
             DL: begin
                 if (!ground)          next_state = FL;
@@ -76,26 +82,47 @@ reg [2:0] state, next_state;
                 else                  next_state = DR;
             end
 
-            SPLAT: next_state = SPLAT;
+            SPLAT: begin
+                next_state = SPLAT;
+            end 
 
             default: next_state = WL;
         endcase
     end
 
-    // State register + fall counter
+     // State register + fall counter
     always @(posedge clk or posedge areset) begin
         if (areset) begin
             state <= WL;
-            fall_count <= 0;
         end else begin
             state <= next_state;
-
-            if (state == FL || state == FR)
-                fall_count <= fall_count + 1'b1;
-            else
-                fall_count <= 0;
         end
     end
+
+
+
+
+    /*
+        need to work on: 
+        -----------------------------------
+        DL(4) -> FL(2)
+        fall_count_left incrementing properly
+
+        DR(5) -> FR(3)
+        fall_count_right not incrementing properly
+
+    */
+    always @(posedge clk ) begin
+            if (state == FL) 
+                fall_count_left <= fall_count_left + 1'b1;
+            else if (state == FR)
+                fall_count_right <= fall_count_right + 1'b1;
+            else 
+                fall_count_left <= 0;  
+                fall_count_right <= 0;
+    end
+
+
 
     // Output logic
     always @(*) begin
@@ -112,7 +139,10 @@ reg [2:0] state, next_state;
             DL: digging    = 1;
             DR: digging    = 1;
             SPLAT: begin
-                
+                walk_left  = 0; 
+                walk_right = 0;
+                aaah       = 0;
+                digging    = 0;
             end
         endcase
     end
