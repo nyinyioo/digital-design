@@ -33,7 +33,7 @@ module top_module(
 
     
     logic [2:0] state, next_state;
-    logic [4:0] fall_count_left, fall_count_right;
+    logic [7:0] fall_count; //
 
     // Next-state logic
     always @(*) begin
@@ -54,39 +54,37 @@ module top_module(
             end
 
             FL: begin
-
-                if (ground) begin
+                if (!ground)
+                    next_state = FL;
+                else if (fall_count >= 20) next_state = SPLAT;
+                else
                     next_state = WL;
-                end else
-                    if (fall_count_left >= 5'd20) next_state = SPLAT;
-                    else        next_state = FL;
-
             end
 
             FR: begin
-                if (ground) begin
+                if (!ground)
+                    next_state = FR;
+                else if (fall_count >= 20) next_state = SPLAT;
+                else
                     next_state = WR;
-                end else
-                    if (fall_count_right >= 5'd20) next_state = SPLAT;
-                    else        next_state = FR;
             end
-
-
+            
             DL: begin
-                if (!ground)          next_state = FL;
+                if (!ground )         next_state = FL;
+                else if (fall_count >= 20) next_state = SPLAT;
                 else                  next_state = DL;
             end
 
             DR: begin
-                if (!ground)          next_state = FR;
+                if (!ground )         next_state = FR;
+                else if (fall_count >= 20) next_state = SPLAT;
                 else                  next_state = DR;
             end
 
             SPLAT: begin
-                next_state = SPLAT;
+    
             end 
 
-            default: next_state = WL;
         endcase
     end
 
@@ -94,35 +92,15 @@ module top_module(
     always @(posedge clk or posedge areset) begin
         if (areset) begin
             state <= WL;
+            fall_count <= 0;
         end else begin
-            state <= next_state;
+             state <= next_state;
+            if ((state == FL) || (state == FR)) begin
+                fall_count <= fall_count + 1'b1; 
+            end else 
+                fall_count <= 0;
         end
     end
-
-
-
-
-    /*
-        need to work on: 
-        -----------------------------------
-        DL(4) -> FL(2)
-        fall_count_left incrementing properly
-
-        DR(5) -> FR(3)
-        fall_count_right not incrementing properly
-
-    */
-    always @(posedge clk ) begin
-            if (state == FL) 
-                fall_count_left <= fall_count_left + 1'b1;
-            else if (state == FR)
-                fall_count_right <= fall_count_right + 1'b1;
-            else 
-                fall_count_left <= 0;  
-                fall_count_right <= 0;
-    end
-
-
 
     // Output logic
     always @(*) begin
@@ -139,11 +117,11 @@ module top_module(
             DL: digging    = 1;
             DR: digging    = 1;
             SPLAT: begin
-                walk_left  = 0; 
-                walk_right = 0;
-                aaah       = 0;
-                digging    = 0;
+                 walk_left  = 0;
+       			 walk_right = 0;
             end
+            default: ;
+  
         endcase
     end
 
