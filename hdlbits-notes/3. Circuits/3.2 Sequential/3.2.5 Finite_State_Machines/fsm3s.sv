@@ -2,7 +2,7 @@ module top_module(
     input clk,
     input in,
     input reset,
-    output out); //
+    output out); 
 
     reg [1:0] state, next_state;
     parameter A=0, B=1, C=2, D=3;
