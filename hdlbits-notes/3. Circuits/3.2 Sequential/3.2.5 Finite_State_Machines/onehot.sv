@@ -17,7 +17,6 @@ module top_module(
                             state[8]&(~in) | 
                             state[9]&(~in) ; 
     
-    
     assign next_state[1] =  state[0]&(in)  |
                             state[8]&(in)  |
                             state[9]&(in)  ;
@@ -38,7 +37,6 @@ module top_module(
     assign next_state[8] =  state[5]&(~in) ;
 
     assign next_state[9] =  state[6]&(~in);
-
 
     //assign output logic
     assign out1 = (state[8]) || 

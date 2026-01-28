@@ -9,7 +9,6 @@ module tb_top_module();
     logic [4:0] fall_count_left, fall_count_right;
     integer i, j;
 
-
     //instantiate UUT
 	top_module UUT(
 	    clk,

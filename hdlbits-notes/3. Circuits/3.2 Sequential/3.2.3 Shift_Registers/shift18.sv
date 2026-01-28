@@ -36,7 +36,7 @@ module top_module(
     
 
         ==> { q[m-1:0], q[n:m] }
-
+  
 
         Rotate Left
         ---------------------
