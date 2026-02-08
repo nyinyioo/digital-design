@@ -53,5 +53,4 @@ module fsm_ps2(
         endcase
     end 
 
-
 endmodule
