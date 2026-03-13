@@ -12,7 +12,7 @@ module top_module (
 
     always@(negedge clk) begin
         if (reset) begin
-            q<= 8h'34;
+            q<= 8'h34;
         end else begin
             q<=d;
         end
