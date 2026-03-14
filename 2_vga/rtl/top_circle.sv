@@ -50,4 +50,4 @@ module top_circle(input logic CLOCK_50, input logic [3:0] KEY,
     // done to LED
     assign LEDR[0] = done;
 
-endmodule: task3
+endmodule: top_circle

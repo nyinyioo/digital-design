@@ -46,4 +46,4 @@ module top_fillscreen(input logic CLOCK_50, input logic [3:0] KEY,
     // done to LED
     assign LEDR[0] = done;
 
-endmodule: task2
+endmodule: top_fillscreen

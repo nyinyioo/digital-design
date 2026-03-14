@@ -49,4 +49,4 @@ module top_reuleaux(input logic CLOCK_50, input logic [3:0] KEY,
 
     assign LEDR[0] = done;
 
-endmodule: task4
+endmodule: top_reuleaux
