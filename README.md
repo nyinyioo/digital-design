@@ -18,3 +18,4 @@ These projects focus on FSMs, timing, memory, and writing testbenches.
 - ModelSim — simulation
 - Quartus — synthesis
 - DE1-SoC FPGA board
+- SPI ST7789 
