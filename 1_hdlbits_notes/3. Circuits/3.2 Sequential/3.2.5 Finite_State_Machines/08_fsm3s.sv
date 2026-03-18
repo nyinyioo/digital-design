@@ -4,12 +4,19 @@ module top_module(
     input reset,
     output out); 
 
-    reg [1:0] state, next_state;
-    parameter A=0, B=1, C=2, D=3;
+    //state assignment
+    typedef enum logic [1:0] {
+        A = 2'd0,
+        B = 2'd1,
+        C = 2'd2,
+        D = 2'd3
+    } state_t;
+
+    state_t state, next_state;
 
     //CL LOGIC
-    always @(*) begin
-        case (state)
+    always_comb begin
+        unique case (state)
             A  :  next_state = in ? B : A;
             B  :  next_state = in ? B : C;
             C  :  next_state = in ? D : A;
@@ -25,8 +32,8 @@ module top_module(
         end 
     end
 
-    always@(*) begin
-            case (state)
+    always_comb begin
+            unique case (state)
                 A  :  out = 0;
                 B  :  out = 0;
                 C  :  out = 0;

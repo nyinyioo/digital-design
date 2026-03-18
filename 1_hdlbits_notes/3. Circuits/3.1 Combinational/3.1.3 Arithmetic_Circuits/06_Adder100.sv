@@ -4,7 +4,8 @@ module top_module(
     output cout,
     output [99:0] sum );
     
-    wire cout_temp[99:0];
+    wire [99:0] cout_temp;
+    
     genvar i;
     generate
         for (i =0; i<100; i= i+1) begin: adders
@@ -17,6 +18,7 @@ module top_module(
             end 
         end
     endgenerate
+
     assign cout = cout_temp[99];
 
 endmodule

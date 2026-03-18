@@ -5,12 +5,10 @@ module top_module (
     output [15:0] q
 );
 
+    //decalre internal signals
+    logic [3:0] ones, tens, hundreds, thousands;
 
-    reg [3:0] ones;
-    reg [3:0] tens;
-    reg [3:0] hundreds;
-    reg [3:0] thousands;
-
+    //assign enable
     assign ena[1] = (ones == 4'd9);
     assign ena[2] = (ones == 4'd9) & (tens == 4'd9);
     assign ena[3] = (ones == 4'd9) & (tens == 4'd9) & (hundreds == 4'd9);
@@ -54,7 +52,7 @@ module top_module (
         end
     end
 
-    // Pack outputs
+    //assign outputs
     assign q[3:0]   = ones;
     assign q[7:4]   = tens;
     assign q[11:8]  = hundreds;

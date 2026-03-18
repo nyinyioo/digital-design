@@ -33,8 +33,8 @@ always@(posedge clk) begin
 end
 
 //mux
-assign z = q[sel];
-/*
+//assign z = q[sel];
+
 always @(*) begin
     case (sel)
         3'b000: Z = q[0];
@@ -48,5 +48,5 @@ always @(*) begin
         default: Z = 1'b0;
     endcase
 end
-*/
+
 endmodule

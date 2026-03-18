@@ -3,8 +3,8 @@ module top_module(
     input [3:0] sel,
     output [15:0] out );
     
-    always@(*) begin
-        case(sel)
+    always_comb begin
+        unique case(sel)
             0: out = a;
             1: out = b;
             2: out = c;

@@ -4,16 +4,16 @@ module top_module(
     output cout,
     output [399:0] sum );
 
-/*
-BCD digit	Bits
-Digit 0	    [    3 :   0]
-Digit 1   	[    7 :   4]
-Digit i	    [4*i+3 : 4*i]
-cin → FA0 → carry[0] → FA1 → carry[1] → ... → FA99 → cout
+    /*
+    BCD digit	Bits
+    Digit 0	    [    3 :   0]
+    Digit 1   	[    7 :   4]
+    Digit i	    [4*i+3 : 4*i]
+    cin → FA0 → carry[0] → FA1 → carry[1] → ... → FA99 → cout
+    */
 
-*/
-genvar i;
-wire [99:0] carry;
+    genvar i;
+    wire [99:0] carry;
     generate
         for (i = 0; i < 100; i = i + 1) begin : bcd_adders
             if (i == 0) begin

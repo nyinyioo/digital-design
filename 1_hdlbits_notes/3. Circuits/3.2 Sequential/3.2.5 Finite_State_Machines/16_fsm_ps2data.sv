@@ -4,9 +4,17 @@ module top_module(
     input reset,  // Synchronous reset
     output [23:0] out_bytes,
     output done);
+    
+    //state assignments
+    typedef enum logic[1:0] {
+        s0 = 2'd0,
+        s1 = 2'd1,
+        s2 = 2'd2,
+        s3 = 2'd3
+    } state_t;
+    state_t state, next_state;
 
-    parameter s0 = 0, s1 = 1, s2 = 2, s3 = 3;
-    logic [1:0] state, next_state;
+    //internal wires
     logic [23:0] message;
 
     // State transition logic (combinational)

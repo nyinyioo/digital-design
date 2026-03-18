@@ -7,15 +7,23 @@ module top_module (
     output g
 ); 
 
-
-    //state assignments 
-    reg [3:0] state, next_state;
-    parameter A = 4'd0, B = 4'd1, C = 4'd2, D = 4'd3, E = 4'd4, F = 4'd5, G = 4'd6, H = 4'd7, I = 4'd8;
-
+    //state assignment
+    typedef enum logic [3:0] { 
+        A = 4'd0, 
+        B = 4'd1, 
+        C = 4'd2, 
+        D = 4'd3, 
+        E = 4'd4, 
+        F = 4'd5, 
+        G = 4'd6, 
+        H = 4'd7, 
+        I = 4'd8
+    } state_t;
+    state_t state, next_state;
 
     //input CL Block
     always_comb begin 
-        case(state)
+        unique case(state)
             A: begin
                 next_state = B;
             end
@@ -46,8 +54,6 @@ module top_module (
              default: next_state = A;
         endcase
     end
-
-
 
     //sequential block
     always @(posedge clk) begin

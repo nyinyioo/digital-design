@@ -8,51 +8,62 @@ module top_module (
     output reg dfr
 );
 
-parameter A=0, B1=1, B2=2, C1=3, C2=4, D=5;
-reg [2:0] state, next_state;
+    //state assignment
+    typedef enum logic[2:0]  { 
+        A  = 3'd0,
+        B  = 3'd1,
+        B1 = 3'd2,
+        B2 = 3'd3,
+        C1 = 3'd4,
+        C2 = 3'd5,
+        D = 3'd6
+    } state_t;
 
-// Next-state logic
-always @(*) begin
-    case(state)
-        A:  next_state <= s[1] ? B1 : A;
-
-        B1: next_state <= s[2] ? C1 :
-                          s[1] ? B1 : A;
-
-        B2: next_state <= s[2] ? C1 :
-                          s[1] ? B2 : A;
-
-        C1: next_state <= s[3] ? D  :
-                          s[2] ? C1 :
-                          s[1] ? B2 : A;
-
-        C2: next_state <= s[3] ? D :
-                          s[2] ? C2 :
-                          s[1] ? B2 : A;
-
-        D:  next_state <= s[3] ? D :
-                          s[2] ? C2 :
-                          s[1] ? B2 : A;
-    endcase
-end
-
-always @(posedge clk) begin
-    if (reset)
-        state <= A;     
-    else
-        state <= next_state;
-end
+    state_t state, next_state;
 
 
-always @(*) begin
-    case(state)
-        A:{fr3,fr2,fr1,dfr} = 4'b1111;
-        B1:{fr3,fr2,fr1,dfr} = 4'b0110;
-        B2:{fr3,fr2,fr1,dfr} = 4'b0111;
-        C1:{fr3,fr2,fr1,dfr} = 4'b0010;
-        C2:{fr3,fr2,fr1,dfr} = 4'b0011;
-        D:{fr3,fr2,fr1,dfr} = 4'b0000;
-    endcase
-end
+    // Next-state logic
+    always@(*) begin
+        unique case(state)
+            A:  next_state <= s[1] ? B1 : A;
+
+            B1: next_state <= s[2] ? C1 :
+                              s[1] ? B1 : A;
+
+            B2: next_state <= s[2] ? C1 :
+                              s[1] ? B2 : A;
+
+            C1: next_state <= s[3] ? D  :
+                              s[2] ? C1 :
+                              s[1] ? B2 : A;
+
+            C2: next_state <= s[3] ? D :
+                              s[2] ? C2 :
+                              s[1] ? B2 : A;
+
+            D:  next_state <= s[3] ? D :
+                              s[2] ? C2 :
+                              s[1] ? B2 : A;
+        endcase
+    end
+
+    always @(posedge clk) begin
+        if (reset)
+            state <= A;
+        else
+            state <= next_state;
+    end
+
+
+    always_comb begin
+        unique case(state)
+            A:  {fr3, fr2, fr1, dfr} = 4'b1111;
+            B1: {fr3, fr2, fr1, dfr} = 4'b0110;
+            B2: {fr3, fr2, fr1, dfr} = 4'b0111;
+            C1: {fr3, fr2, fr1, dfr} = 4'b0010;
+            C2: {fr3, fr2, fr1, dfr} = 4'b0011;
+            D:  {fr3, fr2, fr1, dfr} = 4'b0000;
+        endcase
+    end
 
 endmodule

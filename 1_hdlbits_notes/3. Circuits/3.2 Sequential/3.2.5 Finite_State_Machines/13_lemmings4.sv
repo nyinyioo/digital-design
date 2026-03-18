@@ -22,22 +22,26 @@ module top_module(
     SPLAT = splatter
 */
 
+    //state assignment
+    typedef enum logic [2:0] {
+      WL = 3'd0,
+      WR = 3'd1,
+      FL = 3'd2,
+      FR = 3'd3,
+      DL = 3'd4,
+      DR = 3'd5,
+      SPLAT = 3'd6
+    } state_t;
+    state_t state, next_state;
 
-    parameter WL = 3'd0;
-    parameter WR = 3'd1;
-    parameter FL = 3'd2;
-    parameter FR = 3'd3;
-    parameter DL = 3'd4;
-    parameter DR = 3'd5;
-    parameter SPLAT = 3'd6;
+    //internal wires
+    logic [7:0] fall_count; 
 
-    
-    logic [2:0] state, next_state;
-    logic [7:0] fall_count; //
+    // Next-state logic 
+    always@(*) begin
+        unique case (state)
 
-    // Next-state logic
-    always @(*) begin
-        case (state)
+            default : next_state = WL;
 
             WL: begin
                 if (!ground)          next_state = FL;
@@ -82,7 +86,7 @@ module top_module(
             end
 
             SPLAT: begin
-    
+                //inferred latch
             end 
 
         endcase
@@ -103,13 +107,13 @@ module top_module(
     end
 
     // Output logic
-    always @(*) begin
+    always_comb begin
         walk_left  = 0;
         walk_right = 0;
         aaah       = 0;
         digging    = 0;
 
-        case (state)
+        unique case (state)
             WL: walk_left  = 1;
             WR: walk_right = 1;
             FL: aaah       = 1;
@@ -120,7 +124,6 @@ module top_module(
                  walk_left  = 0;
        			 walk_right = 0;
             end
-            default: ;
   
         endcase
     end

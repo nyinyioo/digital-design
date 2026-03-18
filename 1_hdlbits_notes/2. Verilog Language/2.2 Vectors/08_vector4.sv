@@ -3,7 +3,7 @@ module top_module (
     output [31:0] out );//
 
     // assign out = { replicate-sign-bit , the-input };
-    always @(*) begin
-        out = {{24{in[7]}},in[7:0]};
+    always_comb begin
+        out = {{24{in[7]}} , in[7:0]};
     end
 endmodule

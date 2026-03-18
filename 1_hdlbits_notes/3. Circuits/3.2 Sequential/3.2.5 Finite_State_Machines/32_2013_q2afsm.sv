@@ -5,13 +5,18 @@ module top_module (
     output [3:1] g
 ); 
 
-    //state signals
-    logic [1:0] state, next_state;
-    parameter A = 2'd0, G1 = 2'd1, G2 = 2'd2, G3 = 2'd3;
+    //state assignment
+    typedef enum logic [1:0] { 
+        A  = 2'd0,
+        G1 = 2'd1, 
+        G2 = 2'd2,
+        G3 = 2'd3
+    } state_t;
+    state_t state, next_state;
 
     //input CL block
     always_comb begin 
-        case(state)
+        unique case(state)
             A: begin
                 if      (r[1])      next_state = G1; 
                 else if (r[2])      next_state = G2;

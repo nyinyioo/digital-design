@@ -17,6 +17,6 @@ module top_module(
 
     //redution by boolean algrebra to get optimal soln
     //parity relation.
-    assign out = ^{a,b,c,d};
+    //assign out = ^{a,b,c,d};
 
 endmodule  

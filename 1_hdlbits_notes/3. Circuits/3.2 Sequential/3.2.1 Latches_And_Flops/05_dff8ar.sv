@@ -4,6 +4,7 @@ module top_module (
     input [7:0] d,
     output [7:0] q
 );
+
     always@(posedge clk or posedge areset) begin
         if (areset) begin
             q<=0;
@@ -11,4 +12,5 @@ module top_module (
             q<=d;
         end 
     end
+
 endmodule

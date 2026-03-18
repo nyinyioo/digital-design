@@ -2,13 +2,7 @@
 module top_module (
     input [7:0] in,
     output reg [2:0] pos );
-
-
-/*
-priority encoder with z values: 
-2^8 = 256 cases, with casez reduced to 9 cases.
-if given 8 bit input: 8'b1001zzzz -> output 3'b110;
-*/
+    
 always@(*) begin
     casez(in)
         8'bzzzzzzzz1: pos = 0;
@@ -23,4 +17,6 @@ always@(*) begin
         default: pos = 0;
     endcase
 end
+
+
 endmodule

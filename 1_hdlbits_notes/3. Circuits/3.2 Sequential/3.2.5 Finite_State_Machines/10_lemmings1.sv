@@ -6,11 +6,16 @@ module top_module(
     output walk_left,
     output walk_right); 
 
-   	parameter LEFT=0, RIGHT=1;
-    reg state, next_state;
-   
+    
+    typedef enum logic { 
+        LEFT  = 1'b0, 
+        RIGHT = 1'b1
+    } state_t;
+
+    state_t state, next_state;
+
     always_comb begin
-        case(state)
+        unique case(state)
             LEFT:  next_state = (bump_left) ? RIGHT : LEFT;
             RIGHT: next_state = (bump_right)? LEFT : RIGHT;
         endcase
@@ -25,7 +30,7 @@ module top_module(
     end
     
     always_comb begin
-        case(state)
+        unique case(state)
             LEFT: begin
                 walk_right = 0;
                 walk_left =1;

@@ -6,8 +6,17 @@ module top_module (
 ); 
     parameter A=0,B=1;
     reg state, next_state;
+
+    // state assignment
+    typedef enum logic[1:0] { 
+        A = 2'd0, 
+        B = 2'd1 
+    } state_t;
+
+    state_t state, next_state;
+
     always_comb begin
-        case(state)
+        unique case(state)
             A: next_state = (x == 1) ? B: A;
             B: next_state = (x == 0) ? B: B;
         endcase
@@ -25,7 +34,7 @@ module top_module (
     
     //assign z = (state == A && x == 1) ? 1: 0;                 
     always_comb begin
-        case(state)
+        unique case(state)
             A: z = (x == 1) ? 1: 0;
             B: z = (x == 0) ? 1: 0;
         endcase

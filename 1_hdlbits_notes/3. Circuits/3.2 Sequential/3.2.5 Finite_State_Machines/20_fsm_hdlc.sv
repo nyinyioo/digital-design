@@ -6,10 +6,20 @@ module top_module(
     output flag,
     output err);
 
-    parameter IDLE=3'd0, START=3'd1, FLAG=3'd2, DISC=3'd3, ERR=3'd4;
-    logic [2:0] state, next_state;
+    //state assignment
+    typedef enum logic [2:0] { 
+        IDLE=3'd0, 
+        START=3'd1, 
+        FLAG=3'd2, 
+        DISC=3'd3, 
+        ERR=3'd4
+    } state_t;
+    state_t state, next_state;
+
+    //assign internal signals
     logic [2:0] count, next_count;
 
+    //input CL Block
     always_comb begin
         next_state = state;
         next_count = count;
@@ -64,6 +74,7 @@ module top_module(
         endcase
     end
 
+    //sequential next state assignment
     always_ff @(posedge clk) begin
         if (reset) begin
             state <= IDLE;
@@ -74,6 +85,7 @@ module top_module(
         end
     end
 
+    //CL output block
     assign disc = (state == DISC);
     assign flag = (state == FLAG);
     assign err  = (state == ERR);

@@ -7,7 +7,7 @@ module top_module (
     wire n1,n2,n3;
     reg q1,q2,q3;
 
-    always @(*) begin
+    always_comb begin
         n1 = (x ^   q1);
         n2 = (x &  ~q2);
         n3 = (x || ~q3);

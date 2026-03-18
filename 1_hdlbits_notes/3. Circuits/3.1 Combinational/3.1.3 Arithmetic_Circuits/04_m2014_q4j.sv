@@ -3,7 +3,7 @@ module top_module (
     input [3:0] y, 
     output [4:0] sum);
 
-    wire cout[3:0];
+    wire [3:0] cout;
     genvar i;
     generate
         for (i =0; i<4; i= i+1) begin: adders

@@ -5,10 +5,10 @@ module top_module (
     output [7:0] q
 );
 
-/*
-0x34 ->     00110100
-8'h34 -> 8'b00110100
-*/
+    /*
+        0x34 ->     00110100
+        8'h34 -> 8'b00110100
+    */
 
     always@(negedge clk) begin
         if (reset) begin

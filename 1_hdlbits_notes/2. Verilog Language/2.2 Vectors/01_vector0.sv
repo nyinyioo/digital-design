@@ -5,11 +5,11 @@ module top_module (
     output wire o1,
     output wire o0  ); // Module body starts after module declaration
 
-    always@(*)begin
-        o0 = vec [0];
-        o1 = vec [1];
-        o2 = vec [2];
+    always_comb begin
+        o0   = vec [0];
+        o1   = vec [1];
+        o2   = vec [2];
         outv = vec [2:0];
-    end 
+    end
 
 endmodule

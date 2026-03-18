@@ -4,15 +4,15 @@ module top_module(
     output [1:0] next_state,
     output out); //
     
-    reg[1:0] state, next_state;
+    //ports declared; use parameter
     parameter A=0, B=1, C=2, D=3;
-
+    
     // State transition logic: next_state = f(state, in)
     // Output logic:  out = f(state) for a Moore state machine
 
     //CL LOGIC
-    always @(*) begin
-        case (state)
+    always_comb begin
+        unique case (state)
             A  :  next_state = in ? B : A;
             B  :  next_state = in ? B : C;
             C  :  next_state = in ? D : A;
@@ -20,8 +20,8 @@ module top_module(
         endcase
     end
 
-    always@(*) begin
-            case (state)
+    always_comb begin
+            unique case (state)
                 A  :  out = 0;
                 B  :  out = 0;
                 C  :  out = 0;

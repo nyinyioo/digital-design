@@ -7,15 +7,15 @@ module top_module (
     reg d,q_in,out1;
 
      //CL input block
-    always@(*) begin 
-        case(E) 
+    always_comb begin 
+        unique case(E) 
             0: out1 = q_in;
             1: out1 = w;
         endcase
     end
 
-    always@(*) begin 
-        case(L) 
+    always_comb begin 
+        unique case(L) 
             0: d = out1;
             1: d = R;
         endcase

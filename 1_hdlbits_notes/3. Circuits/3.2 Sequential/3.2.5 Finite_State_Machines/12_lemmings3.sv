@@ -20,18 +20,21 @@ module top_module(
     DR = digging right
 */
 
-    parameter WL = 3'd0;
-    parameter WR = 3'd1;
-    parameter FL = 3'd2;
-    parameter FR = 3'd3;
-    parameter DL = 3'd4;
-    parameter DR = 3'd5;
 
-    reg [2:0] state, next_state;
+    typedef enum logic [1:0] {
+        WL = 3'd0,
+        WR = 3'd1,
+        FL = 3'd2,
+        FR = 3'd3,
+        DL = 3'd4,
+        DR = 3'd5
+    } state_t;
+
+    state_t state, next_state;
 
     // Next-state logic
-    always @(*) begin
-        case (state)
+    always_comb begin
+        unique case (state)
             WL: begin
                 if (!ground)          next_state = FL;
                 else if (dig)         next_state = DL;
@@ -79,13 +82,13 @@ module top_module(
     end
 
     // Output logic
-    always @(*) begin
+    always_comb begin
         walk_left  = 0;
         walk_right = 0;
         aaah       = 0;
         digging    = 0;
 
-        case (state)
+        unique case (state)
             WL: walk_left  = 1;
             WR: walk_right = 1;
             FL: aaah       = 1;

@@ -4,7 +4,7 @@ module top_module (
     input p2a, p2b, p2c, p2d,
     output p2y );
     
-    always@(*) begin
+    always_comb begin
         p1y = ((p1a & p1c & p1b) | (p1f & p1e & p1d)); 
         p2y = ((p2a & p2b) | (p2c & p2d));
     end

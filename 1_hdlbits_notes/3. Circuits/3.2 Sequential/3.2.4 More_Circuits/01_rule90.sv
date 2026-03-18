@@ -19,7 +19,7 @@ reg [511:0] next_q;
 */
 
 //CL BLOCK
-always@(*) begin
+always_comb begin
     next_q = 512'b0;
     for (i = 0; i < 512; i = i + 1) begin
         if (i==0) begin

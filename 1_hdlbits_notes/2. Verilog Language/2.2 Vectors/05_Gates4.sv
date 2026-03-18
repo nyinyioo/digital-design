@@ -1,20 +1,14 @@
 module top_module( 
-    input [2:0] a,
-    input [2:0] b,
-    output [2:0] out_or_bitwise,
-    output out_or_logical,
-    output [5:0] out_not
+    input [3:0] in,
+    output out_and,
+    output out_or,
+    output out_xor
 );
-    always @(*) begin
-        //out_or_bitwise
-        out_or_bitwise[2] = (a[2] | b[2]);
-        out_or_bitwise[1] = (a[1] | b[1]);
-        out_or_bitwise[0] = (a[0] | b[0]);
-        //out_or_logical
-        out_or_logical = (a || b); //thats the bitwise or operator
-        //out_not
-        out_not[5:0] = {~b[2],~b[1],~b[0],~a[2],~a[1],~a[0]};
-    end 
-    
+    //out_and 4 input AND gate
+    always_comb begin
+        out_and = (in[3] & in[2] & in[1] & in[0]);
+        out_or  = (in[3] | in[2] | in[1] | in[0]);
+        out_xor = (in[3] ^ in[2] ^ in[1] ^ in[0]);
+    end
 
 endmodule

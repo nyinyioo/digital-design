@@ -5,13 +5,21 @@ module top_module (
     output z
 );  
 
+    //assigning an integer directly to an enum variable is not allowed
+    //in strict SystemVerilog
+
     // state assignment
-    parameter A = 0, B = 1, C = 2;
-    reg [1:0] state, next_state;
+    typedef enum logic[1:0] { 
+        A = 2'd0, 
+        B = 2'd1, 
+        C = 2'd2 
+    } state_t;
+
+    state_t state, next_state;
 
     // Input CL Block
-    always@(*) begin 
-        case(state)
+    always_comb begin 
+        unique case(state)
             A: next_state = x ? B : A;
             B: next_state = x ? C : B;
             C: next_state = x ? C : B;
@@ -19,9 +27,10 @@ module top_module (
     end
     
     // sequential block 
+    
     always@(posedge clk or posedge areset) begin
         if( areset) begin
-        	state <= 0;
+        	state <= state_t'(0); //explicit type 0
         end else begin
             state <= next_state;
         end 

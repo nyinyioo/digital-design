@@ -28,17 +28,17 @@ equivalent to (mod 1000), wraps around
 */
     wire [3:0] q0, q1, q2;
 
-    //control logic
-    assign c_enable[0] = 1'b1;           
-    assign c_enable[1] = (q0 == 4'd9);   
+    // Enable chain
+    assign c_enable[0] = 1'b1;
+    assign c_enable[1] = (q0 == 4'd9);
     assign c_enable[2] = (q0 == 4'd9) & (q1 == 4'd9);
 
-    // Three cascaded BCD counters, all driven by the same clk
-    bcdcount c0 (clk, reset, c_enable[0], q0);
-    bcdcount c0 (clk, reset, c_enable[1], q1);
-    bcdcount c0 (clk, reset, c_enable[2], q2);
-   
     // One-cycle pulse every 1000 cycles (when count == 999)
     assign OneHertz = (q0 == 4'd9) & (q1 == 4'd9) & (q2 == 4'd9);
+
+    // Three cascaded BCD counters, all driven by the same clk
+    bcdcount c0 (.clk(clk), .reset(reset), .enable(c_enable[0]), .Q(q0));
+    bcdcount c1 (.clk(clk), .reset(reset), .enable(c_enable[1]), .Q(q1));
+    bcdcount c2 (.clk(clk), .reset(reset), .enable(c_enable[2]), .Q(q2));
 
 endmodule

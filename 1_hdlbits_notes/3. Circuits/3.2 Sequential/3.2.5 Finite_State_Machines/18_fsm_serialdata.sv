@@ -7,10 +7,21 @@ module top_module(
 );
 
     integer i;
-    parameter WAIT=2'd0, DATA=2'd1, STOP=2'd2, ERR=2'd3;
-    logic [1:0] state, next_state;
+
+    //state assignment
+    typedef enum logic [1:0] { 
+        WAIT = 2'd1,
+        DATA = 2'd2,
+        STOP = 2'd3,
+        ERR  = 2'd4
+    } state_t;
+    state_t state, next_state;
+
+
+    //assign internal signals
     logic [3:0] count;
     logic [7:0] out_byte_r;
+
 
     // Next-state logic
     always_comb begin

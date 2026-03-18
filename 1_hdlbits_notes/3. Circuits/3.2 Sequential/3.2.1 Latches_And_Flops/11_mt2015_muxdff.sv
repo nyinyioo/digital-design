@@ -1,4 +1,4 @@
-module muxDFF (
+module top_module (
     input clk,
     input L,
     input r_in,
@@ -7,8 +7,8 @@ module muxDFF (
 );
     reg d;
 
-    always @(*) begin 
-        case (L)
+    always_comb begin
+        unique case (L)
             0: d = q_in;
             1: d = r_in;
         endcase
@@ -17,4 +17,5 @@ module muxDFF (
     always @(posedge clk) begin
         Q <= d;
     end
+
 endmodule

@@ -3,11 +3,7 @@ module top_module (
     input [3:0] in,
     output reg [1:0] pos  );
 
-/*
-priority encoder: 
-if given 8 bit input: 8'b10010000 -> output 3'b100;
-*/
-always@(*) begin
+    always@(*) begin
     case(in)
         4'b0000: pos = 0;
         4'b0001: pos = 0;
@@ -28,6 +24,5 @@ always@(*) begin
         default: pos = 0;
     endcase
 end
-
 
 endmodule

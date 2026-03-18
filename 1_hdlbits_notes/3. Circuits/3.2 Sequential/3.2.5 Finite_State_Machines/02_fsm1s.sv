@@ -6,31 +6,36 @@ module top_module(clk, reset, in, out);
     output out;//  
     reg out;
 
-	parameter A = 0, B=1;  
-    reg present_state, next_state;
+    //state assignment
+    typedef enum logic {
+        A = 1'b0,
+        B = 1'b1
+    } state_t;
+    state_t state, next_state;
+
 
     always @(posedge clk) begin
         if (reset) begin  
-            present_state <= B;
+            state <= B;
         end else  begin
-            present_state <= next_state;
-    end 
-    end 
-    
-    always@(*) begin
-            case (present_state)
-                A :  next_state = in ? A : B;
-                B :  next_state = in ? B : A;
-          
-            endcase
+            state <= next_state;
+        end 
     end 
     
-    always@(*) begin
-            case (present_state)
-                A: out = 0;
-                B: out = 1;
+    always_comb begin
+        unique case (state)
+            A :  next_state = in ? A : B;
+            B :  next_state = in ? B : A;
         
-            endcase
+        endcase
+    end 
+    
+    always_comb begin
+        unique case (state)
+            A: out = 0;
+            B: out = 1;
+    
+        endcase
         end
  
 

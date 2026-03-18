@@ -15,15 +15,18 @@ module top_module(
     FL = falling, walking left
     FR = falling, walking right
 */
-    parameter WL = 2'b00;
-    parameter WR = 2'b01;
-    parameter FL = 2'b10;
-    parameter FR = 2'b11;
 
-    reg [1:0] state, next_state;
+    typedef enum logic [1:0] {
+        WL = 2'b00,
+        WR = 2'b01,
+        FL = 2'b10,
+        FR = 2'b11
+    } state_t;
+
+    state_t state, next_state;
 
     // State transition logic
-    always @(*) begin
+    always_comb begin
         case (state)
             WL: begin
                 if (!ground)          next_state = FL;
@@ -60,12 +63,12 @@ module top_module(
     end
 
     // Output logic
-    always @(*) begin
+    always_comb begin
         walk_left  = 0;
         walk_right = 0;
         aaah       = 0;
 
-        case (state)
+        unique case (state)
             WL: walk_left  = 1;
             WR: walk_right = 1;
             FL: aaah       = 1;

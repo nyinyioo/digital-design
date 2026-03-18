@@ -4,12 +4,16 @@ module top_module(
     input in,
     output out);//  
 
-    parameter A=0, B=1; 
-    reg state, next_state;
+    //state assignment
+    typedef enum logic {
+        A = 1'b0,
+        B = 1'b1
+    } state_t;
+    state_t state, next_state;
 
     //CL BLOCK: state diagram
-    always @(*) begin    
-        case (state) 
+    always_comb begin    
+        unique case (state) 
             A: begin next_state = in ? A : B; end
             B: begin next_state = in ? B : A; end
         endcase
@@ -25,8 +29,8 @@ module top_module(
     end
 	
     //comb block: assigning outputs
-    always@(*) begin
-        case (state)
+    always_comb begin
+        unique case (state)
             A: out = 0;
             B: out = 1;
         endcase

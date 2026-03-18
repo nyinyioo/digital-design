@@ -1,34 +1,40 @@
 module top_module(
     input clk,
-    input areset,    // Asynchronous reset to OFF
+    input reset,    // Synchronous reset to OFF
     input j,
     input k,
     output out); //  
 
-    parameter OFF=0, ON=1; 
-    reg state, next_state;
 
-    always @(*) begin
-        case (state)
+    typedef enum logic  {
+        OFF = 1'b0,
+        ON =  1'b1
+    } state_t;
+
+    state_t state, next_state;
+
+    always_comb begin
+        unique case (state)
             ON  :  next_state = k ? OFF : ON;
             OFF :  next_state = j ? ON : OFF;
         endcase
     end
 
-    always @(posedge clk, posedge areset) begin
-        if (areset) begin  
+    always @(posedge clk) begin
+        if (reset) begin  
             state <= OFF;
         end else  begin
             state <= next_state;
         end 
     end
 
-    always@(*) begin
-            case (state)
+    always_comb begin
+            unique case (state)
                 ON:  out = 1;
                 OFF: out = 0;
         
             endcase
         end
+
 
 endmodule

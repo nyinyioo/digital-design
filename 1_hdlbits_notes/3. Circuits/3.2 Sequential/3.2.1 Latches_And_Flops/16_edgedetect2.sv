@@ -4,9 +4,8 @@ module top_module (
     output [7:0] anyedge
 );
 
-
 /*
-pedge = 1 if 
+    pedge = 1 if 
 
     in[i] was 0 last cycle
     in[i] is 1 this cycle
@@ -21,28 +20,28 @@ pedge = 1 if
        |_____|
 
 
-D  Q   anyedge
------------
-0  0    0 
-0  1    1
-1  0    1
-1  1    0
+    D  Q   anyedge
+    -----------
+    0  0    0 
+    0  1    1
+    1  0    1
+    1  1    0
 
-pedge = (~d & q);
+    pedge = (~d & q);
 
-reminder: 
------------------------------
-| / & are bitwise operators
-|| / && are logical operators
+    reminder: 
+    -----------------------------
+    | / & are bitwise operators
+    || / && are logical operators
 
-bitwise: 
+    bitwise: 
 
-    a = 8'b10110010
-    b = 8'b11001001
-  -------------------
-    y = 8'b10000000
+        a = 8'b10110010
+        b = 8'b11001001
+    -------------------
+        y = 8'b10000000
 
-logical:  y = (a != 0) and (b != 0)
+    logical:  y = (a != 0) and (b != 0)
 
 */
 

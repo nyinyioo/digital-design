@@ -4,15 +4,24 @@ module top_module(
     input reset,
     output done
 ); 
-    integer i;    
-    parameter WAIT=2'd0, DATA=2'd1, STOP=2'd2, ERR=2'd3;
-    logic [1:0] state, next_state;
+    //state assignment
+    typedef enum logic [1:0] { 
+        WAIT = 2'd1,
+        DATA = 2'd2,
+        STOP = 2'd3,
+        ERR  = 2'd4
+
+    } state_t;
+    state_t state, next_state;
+
+    //assign internal wires
     logic [3:0] count;
     logic [7:0] out_byte_r;
+    integer i;
 
     // Next-state logic
     always_comb begin
-        case(state)
+        unique case(state)
             WAIT: begin 
                 next_state = in ? WAIT : DATA;
             end 

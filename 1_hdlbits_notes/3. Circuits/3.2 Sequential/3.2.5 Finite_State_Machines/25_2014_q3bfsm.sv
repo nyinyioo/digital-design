@@ -10,7 +10,7 @@ module top_module (
 
     // next state logic
     always_comb begin
-        case(state)
+        unique case(state)
             3'b000: next_state = x ? 3'b001 : 3'b000;
             3'b001: next_state = x ? 3'b100 : 3'b001;
             3'b010: next_state = x ? 3'b001 : 3'b010;

@@ -6,8 +6,6 @@ module top_module (
 ); 
 
 /*
-    Note: 
-    --------------------------------------------
     Two's Complement: 2^8 = 256 values: -128 to +127
 
     2's complement: 
@@ -22,7 +20,7 @@ module top_module (
       10000110  (-122)  ← overflow
 */
 
-    wire carry[7:0];
+    wire [7:0] carry;
     genvar i;
     generate
         for (i =0; i<8; i= i+1) begin: adders

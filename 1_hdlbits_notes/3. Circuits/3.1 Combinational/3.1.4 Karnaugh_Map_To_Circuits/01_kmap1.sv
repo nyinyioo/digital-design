@@ -8,9 +8,9 @@ module top_module(
         KMap:
         --------------------------------------------------------------------------
 
-            	a	b  out	Minterm   Maxterm
+          a	b  out	Minterm   Maxterm
           0   	0	0	0	a'b'c'     a+b+c
-          1		0   0	1	a'b'c      a+b+c'
+          1		  0 0	1	a'b'c      a+b+c'
           2	    0	1	0	a'bc'      a+b'+c
           3	    0	1	1	a'bc       a+b'+c'
           4	    1	0	0	ab'c'      a'+b+c

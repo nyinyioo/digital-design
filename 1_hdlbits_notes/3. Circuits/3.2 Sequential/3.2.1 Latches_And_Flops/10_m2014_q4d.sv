@@ -7,7 +7,7 @@ module top_module (
     reg q, d;
 
     //CL input block 
-    always@(*) begin
+    always_comb begin
         d = (in ^ q);  
     end 
     

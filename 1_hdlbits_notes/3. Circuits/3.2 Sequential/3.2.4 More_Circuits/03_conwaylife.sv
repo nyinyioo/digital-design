@@ -28,13 +28,13 @@ module top_module(
     endfunction
 
     //CL BLOCK
-    always @(*) begin
+    always_comb begin
         for (r = 0; r < 16; r = r + 1) begin
             for (c = 0; c < 16; c = c + 1) begin
                 int n;
                 n = count_neighbors(q, r, c);
 
-                case (n)
+                unique case (n)
                     2: next_q[r*16 + c] = q[r*16 + c]; // stays the same
                     3: next_q[r*16 + c] = 1'b1;        // becomes alive
                     default: next_q[r*16 + c] = 1'b0;  // dies

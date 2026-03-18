@@ -5,9 +5,13 @@ module top_module (
     input w,
     output z
 );
-    //declare signals
-    logic state, next_state;
-    parameter A = 1'b0, B = 1'b1;
+
+    //state assignment
+    typedef enum logic[1:0] { 
+        A = 2'd0, 
+        B = 2'd1 
+    } state_t;
+    state_t state, next_state;
 
     //internal signals
     logic [1:0] count;
@@ -15,7 +19,7 @@ module top_module (
 
     // next state
     always_comb begin
-        case(state)
+        unique case(state)
             A: next_state = s ? B : A;
             B: next_state = B;
             default: next_state = A;

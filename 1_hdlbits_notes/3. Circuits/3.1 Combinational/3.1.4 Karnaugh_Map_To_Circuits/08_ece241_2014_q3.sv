@@ -66,9 +66,9 @@ A MUX is a hardware implementation of Shannon expansion
 
 */
 
-assign mux_in[0] = c & ~d; 
-assign mux_in[1] = ~c & ~d;    
-assign mux_in[2] = ~d;
-assign mux_in[3] = (~c & ~d) | (c & d);
+assign mux_in[0] = c | d;     // select ab = 00
+assign mux_in[1] = 1'b0;      // select ab = 01
+assign mux_in[2] = ~d;        // select ab = 10
+assign mux_in[3] = c & d;     // select ab = 11
 
 endmodule

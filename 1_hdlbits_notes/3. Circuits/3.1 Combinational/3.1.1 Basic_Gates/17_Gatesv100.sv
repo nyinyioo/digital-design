@@ -5,7 +5,8 @@ module top_module(
     output [99:0] out_different );
 
     integer i,j;
-    always@(*)begin
+    
+    always_comb begin
         for (i=0; i < 99; i=i+1) begin
             out_both[i] = in[i] & in[i+1];
             out_any[i+1] = in[i+1] | in[i];
@@ -14,4 +15,5 @@ module top_module(
     end
     
     assign out_different[99] = (in[99] ^ in[0]);
+
 endmodule

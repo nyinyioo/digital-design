@@ -5,9 +5,13 @@ module top_module (
     output z
 ); 
 
-    //declare signals
-    parameter A=2'd0, B=2'd1, C=2'd2;
-    reg [1:0] state, next_state;
+    //state assignments
+    typedef enum logic [1:0] { 
+        A=2'd0, 
+        B=2'd1, 
+        C=2'd2
+    } state_t;
+    state_t state, next_state;
 
     // next state logic 
     always_comb begin

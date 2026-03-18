@@ -7,8 +7,8 @@ module muxDFF (
 );
     reg d;
 
-    always @(*) begin 
-        case (L)
+    always_comb begin 
+        unique case (L)
             0: d = q_in;
             1: d = r_in;
         endcase

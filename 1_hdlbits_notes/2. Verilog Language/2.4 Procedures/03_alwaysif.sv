@@ -7,13 +7,17 @@ module top_module(
     output wire out_assign,
     output reg out_always   ); 
     
-    assign out_assign = (sel_b1 & sel_b2) ? b: a;
+
+    //internal signals
     wire sel = sel_b1 & sel_b2;
-    always @(*) begin
+
+    assign out_assign = (sel_b1 & sel_b2) ? b: a;
+
+    //assign outpts
+    always@(*) begin
         case (sel)
         	0: out_always = a;
             1: out_always = b;
         endcase
-             
     end
 endmodule

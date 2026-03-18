@@ -40,10 +40,10 @@ module top_module(
 
     //assign output logic
     assign out1 = (state[8]) || 
-                (state[9])  ? 1: 0;
+                  (state[9])  ? 1: 0;
 
     assign out2 = (state[9]) ||
-                (state[7])  ? 1 : 0;
+                  (state[7])  ? 1 : 0;
 
 endmodule
 

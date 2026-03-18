@@ -16,4 +16,5 @@ module top_module(
     assign out_different[2] = (in[2] ^ in[3]);
     assign out_different[1] = (in[1] ^ in [2]);
     assign out_different[0] = (in[1] ^ in [0]);
+    
 endmodule 

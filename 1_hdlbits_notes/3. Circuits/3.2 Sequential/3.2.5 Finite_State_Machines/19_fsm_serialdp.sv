@@ -8,8 +8,19 @@ module top_module(
     
     //declare signals
     integer i;
-    parameter WAIT=3'd0, START=3'd1, DATA=3'd2, PARITY=3'd3, STOP=3'd4, ERR=3'd5;
-    logic [2:0] state, next_state;
+
+    //state assignment
+    typedef enum logic [2:0] { 
+        WAIT=3'd0, 
+        START=3'd1, 
+        DATA=3'd2, 
+        PARITY=3'd3, 
+        STOP=3'd4, 
+        ERR=3'd5
+    } state_t;
+    state_t state, next_state;
+    
+    //internal signals
     logic [3:0] count;
     logic [7:0] out_byte_r;
     logic done_r;
@@ -26,7 +37,7 @@ module top_module(
 
     // input CL logic
     always_comb begin
-        case(state)
+        unique case(state)
             WAIT: begin 
                 next_state = in ? WAIT : START;
             end 

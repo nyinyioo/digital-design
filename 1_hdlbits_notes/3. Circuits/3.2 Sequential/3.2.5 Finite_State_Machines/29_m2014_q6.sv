@@ -5,12 +5,19 @@ module top_module (
     output z);
 
     //state assignment
-    logic [3:0] state, next_state;
-    parameter A = 4'd0, B = 4'd1, C = 4'd2, D = 4'd3, E = 4'd4, F = 4'd5;
+    typedef enum logic[3:0] { 
+        A = 4'd0,
+        B = 4'd1, 
+        C = 4'd2, 
+        D = 4'd3, 
+        E = 4'd4, 
+        F = 4'd5
+    } state_t;
+    state_t state, next_state;
 
     //input CL Block
     always_comb begin 
-        case(state)
+        unique case(state)
             A: next_state = w ? A : B;
             B: next_state = w ? D : C;
             C: next_state = w ? D : E;
@@ -31,7 +38,7 @@ module top_module (
 
     //output CL logic block
     always_comb begin 
-        case(state)
+        unique case(state)
             A: z = 0;
             B: z = 0;
             C: z = 0;
