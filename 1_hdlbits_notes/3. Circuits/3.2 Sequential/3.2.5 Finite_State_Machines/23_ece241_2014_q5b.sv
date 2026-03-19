@@ -4,8 +4,6 @@ module top_module (
     input x,
     output z
 ); 
-    parameter A=0,B=1;
-    reg state, next_state;
 
     // state assignment
     typedef enum logic[1:0] { 

@@ -4,7 +4,7 @@ module top_module(
     output [99:0] out );
     
     always_comb begin
-        unqiue case(sel)
+        unique case(sel)
             0: out = a;
             1: out = b;
         endcase

@@ -21,7 +21,7 @@ module top_module(
 */
 
 
-    typedef enum logic [1:0] {
+    typedef enum logic [2:0] {
         WL = 3'd0,
         WR = 3'd1,
         FL = 3'd2,

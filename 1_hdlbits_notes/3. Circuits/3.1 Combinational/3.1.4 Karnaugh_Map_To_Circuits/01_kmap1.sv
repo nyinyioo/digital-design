@@ -8,15 +8,15 @@ module top_module(
         KMap:
         --------------------------------------------------------------------------
 
-          a	b  out	Minterm   Maxterm
-          0   	0	0	0	a'b'c'     a+b+c
-          1		  0 0	1	a'b'c      a+b+c'
-          2	    0	1	0	a'bc'      a+b'+c
-          3	    0	1	1	a'bc       a+b'+c'
-          4	    1	0	0	ab'c'      a'+b+c
-          5	    1	0	1	ab'c       a'+b+c'
-          6	    1	1	0	abc'       a'+b'+c
-          7	    1	1	1	abc        a'+b'+c'
+            	  a	b out	 Minterm   Maxterm
+          0   	0	0	0	   a'b'c'     a+b+c
+          1		  0 0	1	   a'b'c      a+b+c'
+          2	    0	1	0	   a'b c'     a+b'+c
+          3	    0	1	1	   a'b c      a+b'+c'
+          4	    1	0	0	   a b'c'     a'+b+c
+          5	    1	0	1	   a b'c      a'+b+c'
+          6	    1	1	0	   a b c'     a'+b'+c
+          7	    1	1	1	   a b c      a'+b'+c'
 
         minterms: A product (AND) term that is 1 for exactly one input combination
         n variables, there are 2ⁿ minterms
