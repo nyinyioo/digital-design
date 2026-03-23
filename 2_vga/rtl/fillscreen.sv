@@ -3,13 +3,6 @@
 //    Fills a 160x120 VGA screen column by column. 
 //    Colour cycles through 8 values, derived from x_count[2:0].
 // 
-// FSM PARAMETERS: 
-//    RESET  → CLEAR  : rst_n 
-//    CLEAR  → WAIT   : if pixel_done 
-//    WAIT   → PLOT   : if start 
-//    PLOT   → DONE   : if pixel_done 
-//    DONE   → PLOT   : if start 
-//    DONE   → WAIT   : otherwise
 ///////////////////////////////////////////////////////////////////////////////
 
 module fillscreen(input logic clk, input logic rst_n, input logic [2:0] colour,
@@ -17,7 +10,10 @@ module fillscreen(input logic clk, input logic rst_n, input logic [2:0] colour,
                   output logic [7:0] vga_x, output logic [6:0] vga_y,
                   output logic [2:0] vga_colour, output logic vga_plot);
 
+    //---------------------------------
     // state assignments
+    // --------------------------------
+
     typedef enum logic[1:0] {
         CLEAR = 3'd0,
         WAIT = 3'd1,
@@ -27,12 +23,19 @@ module fillscreen(input logic clk, input logic rst_n, input logic [2:0] colour,
 
     state_t state, next_state;
 
+    //---------------------------------
     // internal signals
+    // --------------------------------
+
     logic pixel_done;
     logic [7:0] x_count; //160 pixels in x direction, needs 8 bits
     logic [6:0] y_count; //120 pixels in y direction, needs 7 bits
 
-    //helper function counter
+
+    //---------------------------------
+    // helper functions
+    // --------------------------------
+    
     task automatic counter;
         if (pixel_done) begin
             x_count <= 8'd0;

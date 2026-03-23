@@ -5,13 +5,6 @@
 //     to compute pixel coordinates (px, py). An FSM counter plots across 8 octants 
 //     by symmetry before advancing to the next pixel.
 //
-// FSM PARAMETERS: 
-//    RESET  → CLEAR  : rst_n 
-//    CLEAR  → WAIT   : if pixel_done 
-//    WAIT   → PLOT   : if start 
-//    PLOT   → DONE   : if pixel_done 
-//    DONE   → PLOT   : if start 
-//    DONE   → WAIT   : otherwise
 ///////////////////////////////////////////////////////////////////////////////
 
 module circle(input logic clk, input logic rst_n, input logic [2:0] colour,
@@ -20,17 +13,22 @@ module circle(input logic clk, input logic rst_n, input logic [2:0] colour,
               output logic [7:0] vga_x, output logic [6:0] vga_y,
               output logic [2:0] vga_colour, output logic vga_plot);
 
-    //state assignments
+    //---------------------------------
+    // state assignments
+    // --------------------------------
+
     typedef enum logic[1:0] {
         CLEAR = 3'd0,
         WAIT = 3'd1,
         PLOT = 2'd2,
         DONE = 2'd3
     } state_t;
-
     state_t state, next_state;
 
+    //---------------------------------
     // internal signals
+    // --------------------------------
+
     logic [7:0] x_count, offset_x; 
     logic [6:0] y_count, offset_y;
     logic signed [8:0] crit;
@@ -46,6 +44,7 @@ module circle(input logic clk, input logic rst_n, input logic [2:0] colour,
     // helper functions
     // --------------------------------
     // counter updates x_count and y_count for CLEAR state
+    
     task automatic counter;
         if (pixel_done) begin
             x_count <= 8'd0;

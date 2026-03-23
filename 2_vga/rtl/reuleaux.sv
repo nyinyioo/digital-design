@@ -9,14 +9,6 @@
 //     Half-plane tests F12, F23, F31 clip each arc to
 //     form the Reuleaux triangle.
 //
-// FSM PARAMETERS:
-//    RESET   → CLEAR   : rst_n
-//    CLEAR   → WAIT    : if pixel_done
-//    WAIT    → DRAW_C3 : if start
-//    DRAW_C3 → DRAW_C1 : if circle_done
-//    DRAW_C1 → DRAW_C2 : if circle_done
-//    DRAW_C2 → DONE    : if circle_done
-//    DONE    → WAIT    : otherwise
 ///////////////////////////////////////////////////////////////////////////////
 
 module reuleaux(input logic clk, input logic rst_n, input logic [2:0] colour,
@@ -28,7 +20,7 @@ module reuleaux(input logic clk, input logic rst_n, input logic [2:0] colour,
     //---------------------------------
     // state assignments
     // --------------------------------
-
+    
     typedef enum logic[2:0] {
         CLEAR = 3'd0,
         WAIT = 3'd1,
