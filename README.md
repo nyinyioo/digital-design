@@ -11,6 +11,7 @@ and a FIFO buffer. These projects focus on FSMs, timing, memory, and writing tes
 | HDLBits | FSM, sequential, combinational problems | ✅ Completed |
 | VGA | Fillscreen, Bresenham circle, Reuleaux triangle | ✅ Completed |
 | FIFO | Synchronous FIFO buffer | ⚙️ In Progress |
+| Notes | System Verilog syntax, testbench notes, timing notes   | ⚙️ In Progress |
 
 ## Tools
 - ModelSim — simulation
