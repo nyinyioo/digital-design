@@ -18,7 +18,7 @@ module tb_top_fillscreen();
     // --------------------------------------------------------
     // DUT instantiation
     // --------------------------------------------------------
-    task2 UUT(
+    task2 DUT(
         .CLOCK_50(CLOCK_50),
         .KEY(KEY),
         .SW(SW),

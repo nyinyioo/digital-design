@@ -20,7 +20,7 @@ module tb_top_reuleaux();
     // --------------------------------------------------------
     // DUT instantiation
     // --------------------------------------------------------
-    top_reuleaux UUT(
+    top_reuleaux DUT(
         .CLOCK_50(CLOCK_50),
         .KEY(KEY),
         .SW(SW),

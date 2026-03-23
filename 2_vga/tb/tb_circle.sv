@@ -50,7 +50,7 @@ module tb_circle();
     // --------------------------------------------------------
     // DUT instantiation
     // --------------------------------------------------------
-    circle UUT(
+    circle DUT(
         .clk(clk),
         .rst_n(rst_n),
         .colour(colour),

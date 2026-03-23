@@ -48,7 +48,7 @@ module tb_fillscreen();
     // --------------------------------------------------------
     // DUT instantiation
     // --------------------------------------------------------
-    fillscreen UUT(
+    fillscreen DUT(
         .clk(clk),
         .rst_n(rst_n),
         .colour(colour),

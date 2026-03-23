@@ -57,7 +57,7 @@ module tb_reuleaux();
     // --------------------------------------------------------
     // DUT instantiation
     // --------------------------------------------------------
-    reuleaux UUT(
+    reuleaux DUT(
         .clk(clk),
         .rst_n(rst_n),
         .colour(colour),
