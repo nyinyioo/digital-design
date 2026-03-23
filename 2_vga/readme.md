@@ -5,8 +5,8 @@ Draws graphics on a 160x120 VGA display using a DE1-SoC and Quartus.
 ### Demos
 
 <p>
-  <img src="docs/demo_imgs/fillscreen.jpeg" width="30%"/>
-  <img src="docs/demo_imgs/circle.jpeg" width="30%"/>
+  <img src="docs/demo_imgs/fillscreen.jpeg" width="28.25%"/>
+  <img src="docs/demo_imgs/circle.jpeg" width="28.25%"/>
   <img src="docs/demo_imgs/reuleaux.jpeg" width="30%"/>
 </p>
 
