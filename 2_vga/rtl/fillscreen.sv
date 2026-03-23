@@ -1,45 +1,60 @@
+///////////////////////////////////////////////////////////////////////////////
+// Description: 
+//    Fills a 160x120 VGA screen column by column. 
+//    Colour cycles through 8 values, derived from x_count[2:0].
+// 
+// FSM PARAMETERS: 
+//    RESET  → CLEAR  : rst_n 
+//    CLEAR  → WAIT   : if pixel_done 
+//    WAIT   → PLOT   : if start 
+//    PLOT   → DONE   : if pixel_done 
+//    DONE   → PLOT   : if start 
+//    DONE   → WAIT   : otherwise
+///////////////////////////////////////////////////////////////////////////////
+
 module fillscreen(input logic clk, input logic rst_n, input logic [2:0] colour,
                   input logic start, output logic done,
                   output logic [7:0] vga_x, output logic [6:0] vga_y,
                   output logic [2:0] vga_colour, output logic vga_plot);
 
-    //state assignments--------------------------------------------
+    // state assignments
     typedef enum logic[1:0] {
         CLEAR = 3'd0,
         WAIT = 3'd1,
-        PLOT = 2'd2, 
+        PLOT = 2'd2,
         DONE = 2'd3
     } state_t;
 
     state_t state, next_state;
-    
+
     // internal signals
     logic pixel_done;
     logic [7:0] x_count; //160 pixels in x direction, needs 8 bits
     logic [6:0] y_count; //120 pixels in y direction, needs 7 bits
-    
+
     //helper function counter
     task automatic counter;
         if (pixel_done) begin
             x_count <= 8'd0;
             y_count <= 7'd0;
-        end 
-        else if (y_count == 7'd119) begin
+        end else if (y_count == 7'd119) begin
             y_count <= 7'd0;
             x_count <= x_count + 1;
-        end 
-        else begin
+        end else begin
             y_count <= y_count + 1;
         end
     endtask
+
+    //---------------------------------
+    // FSM logic
+    // --------------------------------
 
     //CL INPUT BLOCK
     always_comb begin
         //default 
         next_state = CLEAR;
 
-        unique case(state) 
-
+        case(state)
             CLEAR: begin
                 next_state = (pixel_done) ? WAIT : CLEAR;
             end
@@ -61,7 +76,7 @@ module fillscreen(input logic clk, input logic rst_n, input logic [2:0] colour,
         endcase
     end
 
-    //SEQUENTIAL STATE TRANSITION BLOCK
+    //SEQUENTIAL NS BLOCK
     always_ff @(posedge clk) begin
         if (~rst_n) begin
             state   <= CLEAR;
@@ -86,7 +101,7 @@ module fillscreen(input logic clk, input logic rst_n, input logic [2:0] colour,
         vga_plot   = 1'b0;
         vga_colour = 3'b0;
 
-        unique case(state)
+        case(state)
             CLEAR: begin
                 vga_x      = x_count;
                 vga_y      = y_count;
@@ -110,4 +125,4 @@ module fillscreen(input logic clk, input logic rst_n, input logic [2:0] colour,
     //assign intermediate signals
     assign pixel_done = (x_count == 8'd159) && (y_count == 7'd119);
 
-endmodule
+endmodule // fill_screen

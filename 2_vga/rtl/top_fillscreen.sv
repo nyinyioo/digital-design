@@ -1,3 +1,10 @@
+///////////////////////////////////////////////////////////////////////////////
+// Description:
+//     Top-level for fillscreen on the DE1-SoC.
+//     Connects fillscreen to the VGA adapter. 
+//     start = KEY[0], reset = KEY[3], colour = SW[2:0], done = LEDR[0].
+///////////////////////////////////////////////////////////////////////////////
+
 module top_fillscreen(input logic CLOCK_50, input logic [3:0] KEY,
              input logic [9:0] SW, output logic [9:0] LEDR,
              output logic [6:0] HEX0, output logic [6:0] HEX1, output logic [6:0] HEX2,

@@ -1,3 +1,19 @@
+///////////////////////////////////////////////////////////////////////////////
+// Description:
+//     Draws a circle on a 160x120 VGA grid using Bresenham's circle algorithm.
+//     Given radius and center (cx, cy), uses decision variable crit
+//     to compute pixel coordinates (px, py). An FSM counter plots across 8 octants 
+//     by symmetry before advancing to the next pixel.
+//
+// FSM PARAMETERS: 
+//    RESET  → CLEAR  : rst_n 
+//    CLEAR  → WAIT   : if pixel_done 
+//    WAIT   → PLOT   : if start 
+//    PLOT   → DONE   : if pixel_done 
+//    DONE   → PLOT   : if start 
+//    DONE   → WAIT   : otherwise
+///////////////////////////////////////////////////////////////////////////////
+
 module circle(input logic clk, input logic rst_n, input logic [2:0] colour,
               input logic [7:0] centre_x, input logic [6:0] centre_y, input logic [7:0] radius,
               input logic start, output logic done,
@@ -8,7 +24,7 @@ module circle(input logic clk, input logic rst_n, input logic [2:0] colour,
     typedef enum logic[1:0] {
         CLEAR = 3'd0,
         WAIT = 3'd1,
-        PLOT = 2'd2, 
+        PLOT = 2'd2,
         DONE = 2'd3
     } state_t;
 
@@ -22,13 +38,14 @@ module circle(input logic clk, input logic rst_n, input logic [2:0] colour,
     logic pixel_done, circle_done, octant_done;
 
     // signed pixel coordinates: need 9 bits to represent range [-128, 127]
-    // px = centre_x + offset_x 
+    // px = centre_x + offset_x
     // py = centre_y + offset_y
     logic signed [8:0] px, py;
 
-    //HELPER FUNCTIONS-------------------------------------------------------------
-    
-    //counter updates x_count and y_count for CLEAR state
+    //---------------------------------
+    // helper functions
+    // --------------------------------
+    // counter updates x_count and y_count for CLEAR state
     task automatic counter;
         if (pixel_done) begin
             x_count <= 8'd0;
@@ -42,7 +59,7 @@ module circle(input logic clk, input logic rst_n, input logic [2:0] colour,
             y_count <= y_count + 1;
         end
     endtask
-    
+
     // bresenham update for next values of (offset_x and offset_y, decision variable crit)
      task automatic breshenham;
      if (crit <= 0) begin
@@ -55,12 +72,14 @@ module circle(input logic clk, input logic rst_n, input logic [2:0] colour,
      octant   <= 3'd0;
      endtask
     
-    //--------------------------------------------------------------------------
+    //---------------------------------
+    // FSM logic
+    // --------------------------------
 
-    // NEXT STATE LOGIC
+    // INPUT CL BLOCK
     always_comb begin
         next_state = CLEAR;
-        unique case(state) 
+        case(state) 
             CLEAR: begin
                 next_state = (pixel_done) ? WAIT : CLEAR;
             end
@@ -77,7 +96,7 @@ module circle(input logic clk, input logic rst_n, input logic [2:0] colour,
         endcase
     end
     
-    // SEQUENTIAL BLOCK
+    // SEQUENTIAL NS BLOCK
     always_ff @(posedge clk) begin
         if (~rst_n) begin
             state    <= CLEAR;
@@ -91,7 +110,7 @@ module circle(input logic clk, input logic rst_n, input logic [2:0] colour,
         end else begin
             state <= next_state;
 
-            unique case(state)
+            case(state)
                 CLEAR: begin
                     counter();
                 end
@@ -122,7 +141,7 @@ module circle(input logic clk, input logic rst_n, input logic [2:0] colour,
         end
     end
     
-    // OUTPUT BLOCK
+    // OUTPUT CL BLOCK
     always_comb begin
         done       = 1'b0;
         vga_x      = 8'b0;
@@ -132,7 +151,7 @@ module circle(input logic clk, input logic rst_n, input logic [2:0] colour,
         px         = 9'sd0;
         py         = 9'sd0;
 
-        unique case(state)
+        case(state)
             CLEAR: begin
                 vga_x      = x_count;
                 vga_y      = y_count;
@@ -145,7 +164,7 @@ module circle(input logic clk, input logic rst_n, input logic [2:0] colour,
             
             PLOT: begin
                 vga_colour = colour;
-                unique case(octant)
+                case(octant)
                     3'd0: begin  //octant 1
                         px = $signed({1'b0, centre_x}) + $signed({1'b0, offset_x}); 
                         py = $signed({1'b0, centre_y}) + $signed({1'b0, offset_y}); 

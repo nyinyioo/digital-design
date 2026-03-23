@@ -1,5 +1,9 @@
 `timescale 1ns/1ps
 module tb_top_circle();
+
+    // --------------------------------------------------------
+    // DUT signals
+    // --------------------------------------------------------
     logic CLOCK_50;
     logic [3:0] KEY;
     logic [9:0] SW;
@@ -15,6 +19,9 @@ module tb_top_circle();
     // cycle counter
     integer cycle_count;
 
+    // --------------------------------------------------------
+    // DUT instantiation
+    // --------------------------------------------------------
     task3 UUT(
         .CLOCK_50(CLOCK_50),
         .KEY(KEY),
@@ -28,9 +35,16 @@ module tb_top_circle();
         .VGA_COLOUR(VGA_COLOUR), .VGA_PLOT(VGA_PLOT)
     );
 
+    // --------------------------------------------------------
+    // Clock generation -- 20ns
+    // --------------------------------------------------------
     initial CLOCK_50 = 0;
     always #10 CLOCK_50 = ~CLOCK_50;
 
+
+    // --------------------------------------------------------
+    // Stimulus
+    // --------------------------------------------------------
     initial begin
         KEY = 4'hF;
         SW  = 10'b0;

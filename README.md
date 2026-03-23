@@ -9,8 +9,8 @@ These projects focus on FSMs, timing, memory, and writing testbenches.
 
 | Project | Description | Status |
 |---|---|---|
-| HDLBits | FSM, sequential, combinational problems | ⚙️In Progress |
-| VGA | Fillscreen, Bresenham circle, Reuleaux triangle | ⚙️ In Progress |
+| HDLBits | FSM, sequential, combinational problems | ✅ Completed |
+| VGA | Fillscreen, Bresenham circle, Reuleaux triangle | ✅ Completed |
 | SPI | VGA modules over SPI protocol | ⚙️ In Progress |
 | FIFO | Synchronous FIFO buffer | ⚙️ In Progress |
 
@@ -18,4 +18,4 @@ These projects focus on FSMs, timing, memory, and writing testbenches.
 - ModelSim — simulation
 - Quartus — synthesis
 - DE1-SoC FPGA board
-- SPI ST7789 
+- SPI ST7789 V

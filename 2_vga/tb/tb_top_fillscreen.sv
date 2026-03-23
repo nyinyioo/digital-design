@@ -1,5 +1,9 @@
 `timescale 1ns/1ps
 module tb_top_fillscreen();
+
+    // --------------------------------------------------------
+    // DUT signals
+    // --------------------------------------------------------
     logic CLOCK_50;
     logic [3:0] KEY;
     logic [9:0] SW;
@@ -11,6 +15,9 @@ module tb_top_fillscreen();
     logic [2:0] VGA_COLOUR;
     logic VGA_PLOT;
 
+    // --------------------------------------------------------
+    // DUT instantiation
+    // --------------------------------------------------------
     task2 UUT(
         .CLOCK_50(CLOCK_50),
         .KEY(KEY),
@@ -23,9 +30,15 @@ module tb_top_fillscreen();
         .VGA_COLOUR(VGA_COLOUR), .VGA_PLOT(VGA_PLOT)
     );
 
+    // --------------------------------------------------------
+    // Clock generation -- 20ns
+    // --------------------------------------------------------
     initial CLOCK_50 = 0;
     always #10 CLOCK_50 = ~CLOCK_50;
 
+    // --------------------------------------------------------
+    // Stimulus
+    // --------------------------------------------------------
     initial begin
     KEY = 4'hF;  
     SW  = 10'b0;

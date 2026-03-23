@@ -1,10 +1,34 @@
+///////////////////////////////////////////////////////////////////////////////
+// Description:
+//     Draws a Reuleaux triangle on a 160x120 VGA grid.
+//     Given center (cx, cy) and diameter, computes the three arc centers
+//     c1, c2, c3 using fixed-point approximations for sqrt(3)/2.
+//
+//     Each arc is drawn by the circle module using
+//     the inputs c1(x,y) and (radius = diameter).
+//     Half-plane tests F12, F23, F31 clip each arc to
+//     form the Reuleaux triangle.
+//
+// FSM PARAMETERS:
+//    RESET   → CLEAR   : rst_n
+//    CLEAR   → WAIT    : if pixel_done
+//    WAIT    → DRAW_C3 : if start
+//    DRAW_C3 → DRAW_C1 : if circle_done
+//    DRAW_C1 → DRAW_C2 : if circle_done
+//    DRAW_C2 → DONE    : if circle_done
+//    DONE    → WAIT    : otherwise
+///////////////////////////////////////////////////////////////////////////////
+
 module reuleaux(input logic clk, input logic rst_n, input logic [2:0] colour,
                 input logic [7:0] centre_x, input logic [6:0] centre_y, input logic [7:0] diameter,
                 input logic start, output logic done,
                 output logic [7:0] vga_x, output logic [6:0] vga_y,
                 output logic [2:0] vga_colour, output logic vga_plot);
 
-    //state assignments--------------------------------------------
+    //---------------------------------
+    // state assignments
+    // --------------------------------
+
     typedef enum logic[2:0] {
         CLEAR = 3'd0,
         WAIT = 3'd1,
@@ -15,13 +39,15 @@ module reuleaux(input logic clk, input logic rst_n, input logic [2:0] colour,
     } state_t;
     state_t state, next_state;
 
-    //internal signals----------------------------------------------
+    //---------------------------------
+    // internal signals
+    // --------------------------------
 
-    //a. corner coordinates
+    // a. corner coordinates
     logic [7:0] c1_x, c2_x, c3_x;
     logic [6:0] c1_y, c2_y, c3_y;
 
-    //b. circle parameters
+    // b. circle parameters
     logic circle_start, circle_done;
     logic [7:0] circle_centre_x;
     logic [6:0] circle_centre_y;
@@ -30,12 +56,12 @@ module reuleaux(input logic clk, input logic rst_n, input logic [2:0] colour,
     logic [6:0] circle_vga_y;
     logic circle_vga_plot;
 
-    //c. count
+    // c. count
     logic [7:0] x_count;
     logic [6:0] y_count;
     logic pixel_done;
 
-    //d. signed coordinates (overflow)
+    // d. signed coordinates (overflow)
     logic signed [9:0]  px, py;
     logic signed [9:0]  dx12, dy12;
     logic signed [9:0]  dx23, dy23;
@@ -43,7 +69,10 @@ module reuleaux(input logic clk, input logic rst_n, input logic [2:0] colour,
     // 20-bit F: product of two 10-bit values
     logic signed [19:0] F12, F23, F31;
 
-    // instantiate circle module--------------------------------------
+    //---------------------------------
+    // instantiate circle module
+    // --------------------------------
+
     circle CIRCLE(
         .clk(clk),
         .rst_n(rst_n),
@@ -60,11 +89,13 @@ module reuleaux(input logic clk, input logic rst_n, input logic [2:0] colour,
         .vga_plot(circle_vga_plot)
     );
 
-    //HELPER FUNCTIONS---------------------------------------------------
+    //---------------------------------
+    // helper functions
+    // --------------------------------
 
     task automatic counter;
         if (pixel_done) begin
-            x_count <= 8'd0;
+            x_count <= 8'd0; 
             y_count <= 7'd0;
         end else if (y_count == 7'd119) begin
             y_count <= 7'd0;
@@ -75,7 +106,7 @@ module reuleaux(input logic clk, input logic rst_n, input logic [2:0] colour,
     endtask
 
     always_comb begin
-        //calculate c1, c2, c3 coordinates
+        // calculate c1, c2, c3 coordinates
         c1_x = centre_x + (diameter >> 1);
         c2_x = centre_x - (diameter >> 1);
         c3_x = centre_x;
@@ -83,7 +114,7 @@ module reuleaux(input logic clk, input logic rst_n, input logic [2:0] colour,
         c2_y = centre_y + ((diameter * 37) >> 7);
         c3_y = centre_y - ((diameter * 37) >> 6);
 
-        //calculate the line difference
+        // calculate the line difference
         dx12 = $signed({2'b00, c2_x}) - $signed({2'b00, c1_x});
         dy12 = $signed({3'b000, c2_y}) - $signed({3'b000, c1_y});
         dx23 = $signed({2'b00, c3_x}) - $signed({2'b00, c2_x});
@@ -93,46 +124,13 @@ module reuleaux(input logic clk, input logic rst_n, input logic [2:0] colour,
 
     end
 
-    //---------------------------------------------------------------------
-
-    // NEXT STATE LOGIC
-    always_comb begin
-        next_state = CLEAR;
-        unique case(state)
-            CLEAR:   next_state = (pixel_done)  ? WAIT    : CLEAR;
-            WAIT:    next_state = (start)       ? DRAW_C3 : WAIT;
-            DRAW_C3: next_state = (circle_done) ? DRAW_C1 : DRAW_C3;
-            DRAW_C1: next_state = (circle_done) ? DRAW_C2 : DRAW_C1;
-            DRAW_C2: next_state = (circle_done) ? DONE    : DRAW_C2;
-            DONE:    next_state = (~start)      ? WAIT    : DONE;
-        endcase
-    end
-
-    // SEQUENTIAL BLOCK
-    always_ff @(posedge clk) begin
-        if (~rst_n) begin
-            state   <= CLEAR;
-            x_count <= 8'd0;
-            y_count <= 7'd0;
-        end else begin
-            state <= next_state;
-            unique case(state)
-                CLEAR: counter();
-                DONE: begin
-                    x_count <= 8'd0;
-                    y_count <= 7'd0;
-                end
-            endcase
-        end
-    end
-
     // circle centre mux
     always_comb begin
         circle_centre_x = c3_x;
         circle_centre_y = c3_y;
         circle_start    = 1'b0;
 
-        unique case(state)
+        case(state)
             DRAW_C3: begin
                 circle_centre_x = c3_x;
                 circle_centre_y = c3_y;
@@ -151,7 +149,42 @@ module reuleaux(input logic clk, input logic rst_n, input logic [2:0] colour,
         endcase
     end
 
-    // OUTPUT BLOCK
+    //---------------------------------
+    // FSM logic
+    // --------------------------------
+
+    // INPUT CL BLOCK
+    always_comb begin
+        next_state = CLEAR;
+        case(state)
+            CLEAR:   next_state = (pixel_done)  ? WAIT    : CLEAR;
+            WAIT:    next_state = (start)       ? DRAW_C3 : WAIT;
+            DRAW_C3: next_state = (circle_done) ? DRAW_C1 : DRAW_C3;
+            DRAW_C1: next_state = (circle_done) ? DRAW_C2 : DRAW_C1;
+            DRAW_C2: next_state = (circle_done) ? DONE    : DRAW_C2;
+            DONE:    next_state = (~start)      ? WAIT    : DONE;
+        endcase
+    end
+
+    // SEQUENTIAL NS LOGIC
+    always_ff @(posedge clk) begin
+        if (~rst_n) begin
+            state   <= CLEAR;
+            x_count <= 8'd0;
+            y_count <= 7'd0;
+        end else begin
+            state <= next_state;
+            case(state)
+                CLEAR: counter();
+                DONE: begin
+                    x_count <= 8'd0;
+                    y_count <= 7'd0;
+                end
+            endcase
+        end
+    end
+
+    // OUTPUT CL BLOCK
     always_comb begin
         done       = 1'b0;
         vga_x      = 8'b0;
@@ -164,7 +197,7 @@ module reuleaux(input logic clk, input logic rst_n, input logic [2:0] colour,
         F23        = 20'sd0;
         F31        = 20'sd0;
 
-        unique case(state)
+        case(state)
             CLEAR: begin
                 vga_x      = x_count;
                 vga_y      = y_count;
