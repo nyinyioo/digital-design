@@ -1,3 +1,5 @@
+# Digital Design
+
 ## Overview
 
 This repository contains my digital design work in SystemVerilog, 
