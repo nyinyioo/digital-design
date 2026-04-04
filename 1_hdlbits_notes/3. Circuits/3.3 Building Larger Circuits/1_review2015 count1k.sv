@@ -3,4 +3,5 @@ module top_module (
     input reset,
     output [9:0] q);
 
+    
 endmodule
