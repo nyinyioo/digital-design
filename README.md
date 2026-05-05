@@ -2,20 +2,17 @@
 
 ## Overview
 
-This repository contains my digital design work in SystemVerilog,
-including RTL practice (HDLBits), a Baccarat card game implementation,
-a VGA display controller, and a single-port SRAM RC4 implementation.
+This repository contains my SystemVerilog digital design work, including a Baccarat card game, a VGA display controller, and a single-port SRAM ARC4 module.
 
 These projects focus on FSMs, timing, memory, and writing testbenches.
 
 ## 
 
-| Project | Description | Status |
-|---|---|---|
-| HDLBits | FSM, sequential, combinational problems | ⚙️ In Progress |
-| Bacarrat | Baccarat FSM, datapath, 7seg display | ✅ Completed | 
-| VGA | Fillscreen, Bresenham circle, Reuleaux triangle | ✅ Completed |
-| Memory | Single Port SRAM RC4 | ⚙️ In Progress |
+| Project | Description |
+|---|---|
+| 🃏 Baccarat | FSM, datapath, 7-seg display |
+| 🖥️ VGA | Fullscreen, Bresenham circle, Reuleaux triangle |
+| 💾 Memory | Single-port SRAM ARC4 |
 
 ## Tools
 - ModelSim — simulation
