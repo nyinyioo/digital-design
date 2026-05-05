@@ -1,4 +1,4 @@
-## AARC4 Cipher 
+## ARC4 Cipher 
 
 Implements ARC4 cipher.
 
