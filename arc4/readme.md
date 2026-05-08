@@ -1,44 +1,44 @@
-## ARC4 Cipher 
 
-Implements ARC4 cipher.
+## ARC4 Cipher
+Implements ARC 4 algorithm to decrypt ciphertext.
 
-- `init` 
-  - initializes a 256-byte S-box with `s[i] = i`
+<table style="font-size: 0.9em">
+  <tr>
+    <th>Module</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><code>init</code></td>
+    <td>Initializes a 256-byte array with <code>s[i] = i</code></td>
+  </tr>
+  <tr>
+    <td><code>ksa</code></td>
+    <td>Key Scheduling Algorithm - scrambles the init array using a 24-bit key</td>
+  </tr>
+  <tr>
+    <td><code>prga</code></td>
+    <td>Pseudo-Random Generation Algorithm - XORs keystream against ciphertext to produce plaintext</td>
+  </tr>
+  <tr>
+    <td><code>arc4</code></td>
+    <td>Full ARC4 pipeline - sequences <code>init -&gt; ksa -&gt; prga</code> using a ready/enable handshake</td>
+  </tr>
+  <tr>
+    <td><code>crack</code></td>
+    <td>Brute-forces the 24-bit key space <code>[0x000000, 0xFFFFFF]</code><br>runs the full ARC4 pipeline for each candidate key and checks if the result is valid ASCII</td>
+  </tr>
+  <tr>
+    <td><code>doublecrack</code></td>
+    <td>Runs two <code>crack</code> cores in parallel, splits the key space into even and odd keys<br>reduces search time by ~2×</td>
+  </tr>
+</table>
 
-- `ksa`
-  -  Key Scheduling Algorithm, scrambles the S-box using the 24-bit key
-  
-- `prga` 
-  - Pseudo-Random Generation Algorithm, XORs the keystream against ciphertext to produce plaintext
-  
-- `crack` 
-  - cycles through 24-bit key space [0x000000, 0xFFFFFF], 
-  - runs ARC4 pipeline for each candidate key.
-  - The key is then displayed on the HEX displays of the DE1-SoC.
-
-
-- `doublecrack` 
-  - runs two `crack` cores in parallel. 
-  - Splits the key space into even and odd. 
-  - Reduces the search time roughly in half. 
-  - The key is then displayed on the HEX displays of the DE1-SoC.
 
 ### Demos
 <p>
   <img src="docs/demo_imgs/key.jpg" width="28.25%"/>
   <img src="docs/demo_imgs/crack.png" width="40%"/>
 </p>
-
-
-<!-- ### FSM Structure
-All modules use a 3-block Moore FSM:
-- Input Combinational Logic → Sequential State Register → Output Combinational Logic
-- Each ARC4 stage (init, ksa, prga) is a separate FSM chained inside `ARC4`
-- `crack` loops the full ARC4 pipeline once per candidate key until a valid plaintext is found
-
-### Testbenches
-RTL testbenches verify state and transition coverage, cycle counts, and plaintext correctness
-against golden reference outputs generated from python implementation of ARC4. -->
 
 ### Note
 Completed in a team of two. Shared with permissions.
